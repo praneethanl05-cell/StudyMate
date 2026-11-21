@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Student Productivity Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>StudyMate</h2>
+
+            <nav>
+                <a href="#dashboard">Dashboard</a>
+                <a href="#tasks">My Tasks</a>
+                <a href="#assignments">Assignments</a>
+                <a href="#planner">Study Planner</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <header>
+                <div>
+                    <h1>Welcome to StudyMate!</h1>
+                    <p>Organize your studies. Achieve your goals.</p>
+                </div>
+            </header>
+
+            <!-- Dashboard -->
+            <section id="dashboard">
+                <h2>Dashboard Overview</h2>
+
+                <div class="cards">
+                    <div class="card">
+                        <h3>Total Tasks</h3>
+                        <p id="totalTasks">0</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Completed Tasks</h3>
+                        <p id="completedTasks">0</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Pending Tasks</h3>
+                        <p id="pendingTasks">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- To Do List -->
+            <section id="tasks">
+                <h2>My To-Do List</h2>
+
+                <div class="task-input">
+                    <input type="text" id="taskInput"
+                        placeholder="Enter your study task">
+
+                    <button onclick="addTask()">Add Task</button>
+                </div>
+
+                <ul id="taskList"></ul>
+            </section>
+
+            <!-- Assignments -->
+            <section id="assignments">
+                <h2>Assignment Tracker</h2>
+
+                <div class="task-input">
+                    <input type="text" id="assignmentInput"
+                        placeholder="Enter assignment name">
+
+                    <input type="date" id="assignmentDate">
+
+                    <button onclick="addAssignment()">Add</button>
+                </div>
+
+                <ul id="assignmentList"></ul>
+            </section>
+
+            <!-- Study Planner -->
+            <section id="planner">
+                <h2>Study Planner</h2>
+
+                <div class="task-input">
+                    <input type="text" id="studyInput"
+                        placeholder="What will you study?">
+
+                    <button onclick="addStudy()">Add Schedule</button>
+                </div>
+
+                <ul id="studyList"></ul>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
