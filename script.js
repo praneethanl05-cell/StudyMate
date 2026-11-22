@@ -29,7 +29,7 @@ async function addTask() {
     }
 
     try {
-        const response = await fetch("http://localhost:8080/api/tasks", {
+        const response = await fetch("https://studymate-z4t0.onrender.com/api/tasks", {
             method: "POST",
             headers: {
                 "Content-Type": "text/plain"
@@ -50,7 +50,7 @@ async function addTask() {
     }
 }
 async function loadTasks() {
-    const response = await fetch("http://localhost:8080/api/tasks");
+    const response = await fetch("https://studymate-z4t0.onrender.com/api/tasks");
 
     tasks = await response.json();
 
@@ -59,7 +59,7 @@ async function loadTasks() {
 async function completeTask(index) {
     try {
         const response = await fetch(
-            `http://localhost:8080/api/tasks/${index}/complete`,
+            `https://studymate-z4t0.onrender.com/api/tasks/${index}/complete`,
             { method: "PUT" }
         );
 
@@ -75,7 +75,7 @@ async function completeTask(index) {
 async function undoTask(index) {
     try {
         const response = await fetch(
-            `http://localhost:8080/api/tasks/${index}/undo`,
+            `https://studymate-z4t0.onrender.com/api/tasks/${index}/undo`,
             { method: "PUT" }
         );
 
@@ -94,7 +94,7 @@ async function undoTask(index) {
 async function deleteTask(index) {
     try {
         const response = await fetch(
-            `http://localhost:8080/api/tasks/${index}`,
+            `https://studymate-z4t0.onrender.com/api/tasks/${index}`,
             { method: "DELETE" }
         );
 
