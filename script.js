@@ -1,5 +1,5 @@
 
-let tasks = [];
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let assignments = JSON.parse(localStorage.getItem("assignments")) || [];
 let studies = JSON.parse(localStorage.getItem("studies")) || [];
 
@@ -19,7 +19,7 @@ function updateDashboard() {
         tasks.length - completed;
 }
 
-async function addTask() {
+function addTask() {
     const input = document.getElementById("taskInput");
     const name = input.value.trim();
 
@@ -28,85 +28,45 @@ async function addTask() {
         return;
     }
 
-    try {
-        const response = await fetch("https://studymate-z4t0.onrender.com/api/tasks", {
-            method: "POST",
-            headers: {
-                "Content-Type": "text/plain"
-            },
-            body: name
-        });
+    tasks.push({
+        name: name,
+        completed: false
+    });
 
-        if (!response.ok) {
-            throw new Error("Unable to add task");
-        }
-
-        input.value = "";
-        await loadTasks();
-
-    } catch (error) {
-        alert("Could not connect to Java server!");
-        console.error(error);
-    }
-}
-async function loadTasks() {
-    const response = await fetch("https://studymate-z4t0.onrender.com/api/tasks");
-
-    tasks = await response.json();
-
+    input.value = "";
+    saveData();
     renderTasks();
 }
-async function completeTask(index) {
-    try {
-        const response = await fetch(
-            `https://studymate-z4t0.onrender.com/api/tasks/${index}/complete`,
-            { method: "PUT" }
-        );
 
-        if (!response.ok) throw new Error("Could not complete task");
-
-        await loadTasks();
-
-    } catch (error) {
-        alert("Unable to complete task!");
-        console.error(error);
-    }
+function loadTasks() {
+    tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    renderTasks();
 }
-async function undoTask(index) {
-    try {
-        const response = await fetch(
-            `https://studymate-z4t0.onrender.com/api/tasks/${index}/undo`,
-            { method: "PUT" }
-        );
 
-        if (!response.ok) {
-            throw new Error("Could not undo task");
-        }
-
-        await loadTasks();
-
-    } catch (error) {
-        alert("Unable to undo task!");
-        console.error(error);
+function completeTask(index) {
+    if (index >= 0 && index < tasks.length) {
+        tasks[index].completed = true;
+        saveData();
+        renderTasks();
     }
 }
 
-async function deleteTask(index) {
-    try {
-        const response = await fetch(
-            `https://studymate-z4t0.onrender.com/api/tasks/${index}`,
-            { method: "DELETE" }
-        );
-
-        if (!response.ok) throw new Error("Could not delete task");
-
-        await loadTasks();
-
-    } catch (error) {
-        alert("Unable to delete task!");
-        console.error(error);
+function undoTask(index) {
+    if (index >= 0 && index < tasks.length) {
+        tasks[index].completed = false;
+        saveData();
+        renderTasks();
     }
 }
+
+function deleteTask(index) {
+    if (index >= 0 && index < tasks.length) {
+        tasks.splice(index, 1);
+        saveData();
+        renderTasks();
+    }
+}
+
 function renderTasks() {
     const list = document.getElementById("taskList");
     list.innerHTML = "";
@@ -116,15 +76,19 @@ function renderTasks() {
         const span = document.createElement("span");
 
         span.textContent = task.name;
-        if (task.completed) span.style.textDecoration = "line-through";
+
+        if (task.completed) {
+            span.style.textDecoration = "line-through";
+        }
 
         const completeBtn = document.createElement("button");
         completeBtn.textContent = task.completed ? "Undo" : "Complete";
+
         completeBtn.onclick = () => {
             if (task.completed) {
                 undoTask(index);
             } else {
-                 completeTask(index);
+                completeTask(index);
             }
         };
 
